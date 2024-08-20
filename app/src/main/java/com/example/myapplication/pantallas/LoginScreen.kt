@@ -18,9 +18,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 data class User(val username: String, val password: String, val name: String, val age: Int)
 
 val mockUsers = listOf(
-    User("user1", "pass1", "John Doe", 30),
-    User("user2", "pass2", "Jane Smith", 25),
-    User("user3", "pass3", "Bob Johnson", 35)
+    User("user1", "pass1", "Pablo Vallejos", 25),
+    User("user2", "pass2", "Miguel Puebla", 34),
+    User("user3", "pass3", "Carolina Martinez", 23)
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +33,7 @@ fun LoginScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Login") },
+                title = { Text("Regresar a Inicio") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back to Home")
@@ -54,42 +54,53 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.logo),
+                painter = painterResource(id = R.drawable.logova),
                 contentDescription = "App Logo",
-                modifier = Modifier.size(120.dp).padding(bottom = 32.dp)
+                tint = Color.Unspecified,
+                modifier = Modifier.size(240.dp).padding(bottom = 32.dp)
             )
 
             TextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") },
+                label = { Text("Usuario") },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Contraseña") },
                 modifier = Modifier.fillMaxWidth(),
                 visualTransformation = PasswordVisualTransformation()  // Oculta el texto ingresado
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = {
-                val user = mockUsers.find { it.username == username && it.password == password }
-                if (user != null) {
-                    navController.navigate("userAccount/${user.username}")
-                } else {
-                    errorMessage = "Invalid username or password"
-                }
-            }) {
-                Text("Login")
+            Button(
+                onClick = {
+                    val user = mockUsers.find { it.username == username && it.password == password }
+                    if (user != null) {
+                        navController.navigate("userAccount/${user.username}")
+                    } else {
+                        errorMessage = "Invalid username or password"
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()  // Esto hace que el botón ocupe todo el ancho disponible
+                    .padding(vertical = 8.dp)  // Puedes ajustar el espacio vertical si lo deseas
+            ) {
+                Text(
+                    text = "Login",
+                    style = MaterialTheme.typography.bodyLarge,  // Ajusta el tamaño de la tipografía
+                    modifier = Modifier.padding(vertical = 8.dp)  // Esto aumenta el tamaño vertical del texto dentro del botón
+                )
             }
             if (errorMessage.isNotEmpty()) {
                 Text(errorMessage, color = Color.Red)
             }
             Spacer(modifier = Modifier.height(8.dp))
             TextButton(onClick = { navController.navigate("recoverPassword") }) {
-                Text("Forgot Password?")
+                Text(text = "¿Olvidaste tu contraseña?",
+                    style = MaterialTheme.typography.bodyLarge)
             }
         }
     }
