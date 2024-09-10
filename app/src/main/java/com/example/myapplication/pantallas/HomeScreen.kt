@@ -32,8 +32,18 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 16.dp)  // Añade espacio debajo del texto
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate("login") }) {
-            Text("Ir a Login")
+        Button(onClick = { navController.navigate("login") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)) {
+            Text("Ir a Login",
+                style = MaterialTheme.typography.headlineSmall.copy( // Usa headlineSmall en lugar de h5
+                    fontSize = 48.sp,  // Aumenta el tamaño del texto si es necesario
+                    letterSpacing = 0.5.sp,  // Espaciado entre letras
+                    lineHeight = 48.sp,  // Espaciado entre líneas
+
+                    textAlign = TextAlign.Center  // Centra el texto
+                ))
         }
     }
 }

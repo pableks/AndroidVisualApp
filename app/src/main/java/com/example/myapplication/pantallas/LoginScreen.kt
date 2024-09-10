@@ -1,6 +1,8 @@
 package com.example.myapplication.pantallas
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -10,9 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,12 +26,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.myapplication.R
 
-data class User(val username: String, val password: String, val name: String, val age: Int)
+data class User(val username: String, val password: String, val name: String, val age: Int, val poem: String)
 
 val mockUsers = listOf(
-    User("user1", "pass1", "Pablo Vallejos", 25),
-    User("user2", "pass2", "Miguel Puebla", 34),
-    User("user3", "pass3", "Carolina Martinez", 23)
+    User("user1", "pass1", "Pablo Vallejos", 25, "Caminante, son tus huellas\nel camino y nada más;\ncaminante, no hay camino,\nse hace camino al andar."),
+    User("user2", "pass2", "Miguel Puebla", 34, "Tus ojos son luceros,\ntus labios, de terciopelo,\ny un amor como el que siento,\nes imposible esconderlo."),
+    User("user3", "pass3", "Carolina Martinez", 23, "Puedo escribir los versos más tristes esta noche.\nEscribir, por ejemplo: 'La noche está estrellada,\ny tiritan, azules, los astros, a lo lejos.'")
 )
 
 class TextSizeViewModel : ViewModel() {
@@ -69,7 +74,9 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
-    var textSizeMultiplier by rememberSaveable { mutableStateOf(1f) }
+    var textSizeMultiplier by rememberSaveable { mutableStateOf(1.5f) }
+    val passwordFocusRequester = remember { FocusRequester() } // Define passwordFocusRequester
+
 
     // Update the ViewModel's state when the remembered state changes
     LaunchedEffect(textSizeMultiplier) {
@@ -81,6 +88,14 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
         textSizeMultiplier = viewModel.textSizeMultiplier.value
     }
 
+    fun attemptLogin() {
+        val user = mockUsers.find { it.username == username && it.password == password }
+        if (user != null) {
+            navController.navigate("userAccount/${user.username}")
+        } else {
+            errorMessage = "Usuario o contraseña incorrecto"
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -134,27 +149,26 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
                 onValueChange = { username = it },
                 label = { Text("Usuario", fontSize = 14.sp * textSizeMultiplier) },
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = LocalTextStyle.current.copy(fontSize = 16.sp * textSizeMultiplier)
+                textStyle = LocalTextStyle.current.copy(fontSize = 16.sp * textSizeMultiplier),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = { passwordFocusRequester.requestFocus() })
             )
             Spacer(modifier = Modifier.height(8.dp))
             TextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Contraseña", fontSize = 14.sp * textSizeMultiplier) },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(passwordFocusRequester),
                 visualTransformation = PasswordVisualTransformation(),
-                textStyle = LocalTextStyle.current.copy(fontSize = 16.sp * textSizeMultiplier)
+                textStyle = LocalTextStyle.current.copy(fontSize = 16.sp * textSizeMultiplier),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { attemptLogin() })
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {
-                    val user = mockUsers.find { it.username == username && it.password == password }
-                    if (user != null) {
-                        navController.navigate("userAccount/${user.username}")
-                    } else {
-                        errorMessage = "Invalid username or password"
-                    }
-                },
+                onClick = { attemptLogin() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
@@ -182,6 +196,13 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
+            if (errorMessage.isNotEmpty()) {
+                Text(errorMessage, color = Color.Red, fontSize = 14.sp * textSizeMultiplier)
+            }
+
         }
     }
+}
+fun getUserData(username: String): User? {
+    return mockUsers.find { it.username == username }
 }
