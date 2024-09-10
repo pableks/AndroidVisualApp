@@ -5,7 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,17 +20,29 @@ fun RecoverPasswordScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Recover Password")
+        Text(
+            "Recuperar Contraseña",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 48.sp,
+                lineHeight = 48.sp
+            ),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2
+        )
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
+            label = { Text("Email",
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp ,
+                    lineHeight = 20.sp
+            ),) },
+            modifier = Modifier.padding(vertical = 8.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { /* Implement password recovery logic */ }) {
-            Text("Send Recovery Email")
+            Text("Enviar correo de recuperación")
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { navController.navigateUp() }) {

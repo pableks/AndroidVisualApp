@@ -196,9 +196,7 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
-            if (errorMessage.isNotEmpty()) {
-                Text(errorMessage, color = Color.Red, fontSize = 14.sp * textSizeMultiplier)
-            }
+
 
         }
     }
