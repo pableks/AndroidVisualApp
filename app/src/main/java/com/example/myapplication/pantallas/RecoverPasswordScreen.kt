@@ -32,7 +32,7 @@ fun RecoverPasswordScreen(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { navController.navigateUp() }) {
-            Text("Back to Login")
+            Text("Regresa al Login")
         }
     }
 }
