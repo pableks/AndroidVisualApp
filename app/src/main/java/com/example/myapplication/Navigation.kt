@@ -16,6 +16,10 @@ fun AppNavigation() {
         composable("start") { HomeScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("recoverPassword") { RecoverPasswordScreen(navController) }
+        composable("services/{username}") { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+            ServicesScreen(navController, username)
+        }
         composable(
             "userAccount/{username}",
             arguments = listOf(navArgument("username") { type = NavType.StringType })

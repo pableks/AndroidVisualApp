@@ -91,7 +91,7 @@ fun LoginScreen(navController: NavController, viewModel: TextSizeViewModel = vie
     fun attemptLogin() {
         val user = mockUsers.find { it.username == username && it.password == password }
         if (user != null) {
-            navController.navigate("userAccount/${user.username}")
+            navController.navigate("services/${user.username}")
         } else {
             errorMessage = "Usuario o contraseña incorrecto"
         }
