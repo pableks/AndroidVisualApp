@@ -27,7 +27,7 @@ fun ServicesScreen(navController: NavController, username: String, viewModel: Te
             TopAppBar(
                 title = { Text("Servicios", fontSize = 18.sp * textSizeMultiplier) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { navController.navigate("login") }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -77,7 +77,7 @@ fun ServicesScreen(navController: NavController, username: String, viewModel: Te
             )
             ServiceButton(
                 text = "Reconocimiento de Objetos",
-                onClick = { /* Implement navigation to Object Recognition feature */ },
+                onClick = { navController.navigate("objectRecognition") },
                 textSizeMultiplier = textSizeMultiplier
             )
         }

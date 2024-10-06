@@ -1,4 +1,7 @@
 [versions]
+mlkit = "17.0.7"
+camerax = "1.2.2"
+coil = "2.2.2"
 agp = "8.5.2"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
@@ -10,8 +13,17 @@ activityCompose = "1.8.0"
 composeBom = "2024.04.01"
 navigationCompose = "2.7.7"
 navigationRuntimeKtx = "2.7.7"
+visionCommon = "17.3.0"
+imageLabelingCommon = "18.1.0"
+imageLabelingDefaultCommon = "17.0.0"
+cameraCore = "1.3.4"
 
 [libraries]
+mlkit-image-labeling = { group = "com.google.mlkit", name = "image-labeling", version.ref = "mlkit" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -28,6 +40,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
+image-labeling-common = { group = "com.google.mlkit", name = "image-labeling-common", version.ref = "imageLabelingCommon" }
+image-labeling-default-common = { group = "com.google.mlkit", name = "image-labeling-default-common", version.ref = "imageLabelingDefaultCommon" }
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
